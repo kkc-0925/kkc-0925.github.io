@@ -2,17 +2,19 @@
 <html lang="zh-CN" style="--paper: #f5ebe5; --dim: 0.2;" data-encore-instance="f18ba1c4-2ea3-40bd-9349-056555b3dbce"><head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Encore 安可回忆，你的私人演唱会回忆册。收藏现场照片，让每一次心动再次响起。">
-  <title>Encore · 安可回忆</title>
+  <title>示例相册 · Encore 安可回忆</title>
   <link rel="stylesheet" href="style.css" data-encore-source="style">
 </head>
 <body>
 <div id="wallpaper" aria-hidden="true"></div>
-<header class="header">
-  <a href="#" class="brand" aria-label="Encore 首页">encore<span class="brand-star">✳</span><small>安 可 回 忆</small></a>
-  <nav aria-label="主导航"><a class="active" href="#moments">回忆放映室</a><a href="#collection">我的现场</a><button data-panel="appearance">布置空间 <span>↗</span></button></nav>
+<a class="skip-link" href="#moments">跳到回忆放映室</a>
+<header class="header site-header">
+  <a href="../" class="brand" aria-label="Encore 相册首页">encore<span class="brand-star">✳</span><small>安 可 回 忆</small></a>
+  <nav aria-label="主导航"><a href="../">相册首页</a><a href="../1/">回忆 1</a><a href="../example/" aria-current="page">示例相册</a></nav>
   <button class="button dark header-add" data-panel="upload"><span>＋</span> 收藏新回忆</button>
 </header>
 <main>
+  <nav class="album-nav" aria-label="相册内导航"><span class="album-nav-name">示例相册</span><a href="#moments" aria-current="location">回忆放映室</a><a href="#collection">我的现场</a><button data-panel="appearance">布置空间 <span aria-hidden="true">↗</span></button></nav>
   <section class="hero" id="moments">
     <div class="eyebrow"><span class="live-dot"></span> THE SHOW ENDS. THE FEELING STAYS.</div>
     <h1>有些夜晚，<br>值得<span class="headline-accent">再来一遍<svg viewBox="0 0 400 22" aria-hidden="true"><path d="M4 16 Q170 -5 393 9 M38 21 Q220 7 352 15"></path></svg></span><span class="hero-star">✧</span></h1>
@@ -29,13 +31,13 @@
   </section>
   <section class="collection" id="collection">
     <div class="section-heading"><div><span class="eyebrow">THE NIGHTS WE KEEP</span><h2>我的现场<span class="small-star">✳</span></h2></div><p>散场之后，故事还在继续。</p><button class="text-button" data-panel="upload">添加照片 <span>＋</span></button></div>
-    <div class="collection-toolbar"><div class="tabs" role="group" aria-label="照片筛选"><button class="" data-filter="all">所有瞬间 <span id="totalCount">12</span></button><button data-filter="mine" class="selected">我的照片 <span id="mineCount">12</span></button><button data-filter="favorite">心动收藏 <span id="favCount">12</span></button></div><div class="view-note">保存在此浏览器</div></div>
+    <div class="collection-toolbar"><div class="tabs" role="group" aria-label="照片筛选"><button class="selected" data-filter="all">所有瞬间 <span id="totalCount">12</span></button><button data-filter="mine">我的照片 <span id="mineCount">12</span></button><button data-filter="favorite">心动收藏 <span id="favCount">12</span></button></div><div class="view-note">保存在此浏览器</div></div>
     <div class="photo-grid" id="photoGrid"></div><div class="empty-state" id="emptyState" hidden=""><span>✧</span><h3>下一个心动瞬间，等你收藏。</h3><p id="emptyCopy">导入你的现场照片，写下只属于你的故事。</p><button class="button dark" data-panel="upload">＋ 收藏新回忆</button></div>
     <div class="collection-footer"><button id="bindLocalFile" class="text-button">启用原文件自动保存</button><button id="saveOriginal" class="text-button" hidden="">立即写回</button><button class="text-button" id="savePortable">下载副本 ↗</button><button class="text-button" id="backup">导出我的回忆 ↗</button><button class="text-button" id="restore">导入备份 ↙</button><span id="localSaveStatus" class="local-save-status" role="status" data-state="idle">打开后检查原文件保存权限</span></div>
   </section>
   <section class="closing"><div class="ticket"><div class="ticket-main"><span class="eyebrow">ADMIT ONE · FOREVER</span><h3>下一次，我们还在现场。</h3><p>一张照片，一首歌，一场永不散场的回忆。</p></div><div class="ticket-stub"><span>ENCORE</span><div class="barcode"></div><small>KEEP YOUR FEELINGS</small></div></div><div class="closing-doodle">see you at<br><i>the next show.</i><span>↗</span></div></section>
 </main>
-<footer class="footer"><a class="brand" href="#">encore<span class="brand-star">✳</span></a><span>为每一个不想散场的你而做。</span><button data-panel="help" class="text-button">使用说明 ↗</button></footer>
+<footer class="footer"><a class="brand" href="../">encore<span class="brand-star">✳</span></a><span>为每一个不想散场的你而做。</span><button data-panel="help" class="text-button">使用说明 ↗</button></footer>
 <aside class="music-player" aria-label="背景音乐播放器"><button class="record" id="musicSettings" aria-label="选择背景音乐"><span></span></button><button class="track-info" data-panel="music"><strong id="trackName">倒数</strong><span id="trackSub">5 / 5 · 歌单循环</span></button><div class="waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span id="musicTime">0:59</span><input id="musicVolume" type="range" min="0" max="1" step=".01" value=".6" aria-label="背景音乐音量"><div id="compactPlayback" class="compact-playback"><button id="compactPrevious" class="compact-step" type="button" aria-label="上一首歌曲" title="上一首歌曲"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h2v14H4zM16 3v14L7 10z"></path></svg></button><button class="music-play" id="musicPlay" aria-label="播放背景音乐">▶</button><button id="compactNext" class="compact-step" type="button" aria-label="下一首歌曲" title="下一首歌曲"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M14 3h2v14h-2zM4 3l9 7-9 7z"></path></svg></button><div class="compact-progress"><input id="musicSeek" type="range" min="0" max="1000" step="1" value="0" aria-label="歌曲播放进度" aria-valuetext="0:59，共 3:45" style="--seek-progress: 26.5%;"><span id="compactMusicTime" class="compact-music-time">0:00 / --:--</span></div></div><button class="music-more" aria-label="展开音乐控制" aria-controls="playlistTransport nativeAudioSlot" aria-expanded="false" title="展开音乐控制">⋯</button><div id="playlistTransport" class="playlist-transport"><button id="musicPrevious" aria-label="上一首歌曲">‹ 上一首</button><button id="musicList" data-panel="music">歌单 · 5 首</button><button id="musicMode" title="切换歌单循环或单曲循环">歌单循环</button><button id="musicNext" aria-label="下一首歌曲">下一首 ›</button></div><div id="nativeAudioSlot" class="native-audio-slot"><audio id="audio" preload="metadata" controls="" playsinline="" webkit-playsinline="" aria-label="系统音乐播放器"></audio><p id="playbackStatus" role="status">打开后点击播放音乐</p></div></aside>
 
 <dialog id="settingsDialog"><div class="dialog-top"><span class="eyebrow" id="dialogEyebrow">MAKE IT YOURS</span><button class="close-button" data-close="" aria-label="关闭">×</button></div><div id="panelContent"></div></dialog>

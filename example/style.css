@@ -122,3 +122,23 @@ textarea.inline-edit-input{resize:vertical;min-height:66px}
 .local-save-status[data-state=saving],.local-save-status[data-state=pending]{color:#8f642e}
 .local-save-status[data-state=error]{color:#a54531}
 .local-save-status[data-state=saved]{color:#4f7045}
+
+/* Shared site navigation: album links stay available on small screens. */
+html{scroll-padding-top:152px}
+.skip-link{position:fixed;top:-100px;left:16px;padding:10px 18px;background:var(--ink);color:white;z-index:100}
+.skip-link:focus{top:12px}
+.header.site-header{position:sticky;top:0;z-index:30;max-width:none;height:100px;padding:0 max(40px,calc((100vw - 1152px)/2));gap:26px;background:var(--paper);box-shadow:0 3px 16px #292d2a04}
+.site-header .brand{flex-shrink:0}
+.header.site-header nav{gap:30px}
+.header.site-header nav a{display:block;white-space:nowrap;padding:15px 0;color:#62675e}
+.header.site-header nav a:hover,.header.site-header nav a[aria-current="page"]{color:var(--accent)}
+.header.site-header nav a[aria-current="page"]:after{content:'';position:absolute;width:18px;height:3px;background:var(--accent);bottom:4px;left:calc(50% - 9px)}
+.header-action{white-space:nowrap;gap:20px}
+.album-nav{display:flex;align-items:center;gap:28px;min-height:62px;margin:0 70px;border-bottom:1px solid var(--line);font-size:11px}
+.album-nav-name{margin-right:auto;color:var(--accent);font-size:10px;letter-spacing:1px}
+.album-nav a,.album-nav button{padding:14px 0;white-space:nowrap}
+.album-nav a[aria-current="location"]{color:var(--accent)}
+.album-nav button span{margin-left:6px}
+@media(max-width:900px){.header.site-header{padding:0 28px;gap:20px;height:90px}.header.site-header nav{gap:24px}.album-nav{margin:0 32px;gap:22px}}
+@media(max-width:650px){.header.site-header{height:auto;min-height:112px;padding:15px 22px 0;flex-wrap:wrap;gap:0 14px}.site-header .brand{font-size:29px}.site-header .brand-star{font-size:27px}.site-header .brand small{font-size:7px;letter-spacing:3px;margin-top:7px}.header.site-header nav{order:3;flex:0 0 100%;justify-content:space-between;gap:18px;margin-top:10px;font-size:11px}.header.site-header nav a{padding:12px 3px}.site-header .header-add,.site-header .header-action{margin-left:auto;padding:10px 12px;font-size:10px;min-height:38px}.album-nav{margin:0 22px;gap:22px;min-height:51px;justify-content:space-between;font-size:10px}.album-nav-name{display:none}.album-nav button{font-size:10px}.collection{scroll-margin-top:15px}}
+@media(max-width:360px){.header.site-header{padding-left:16px;padding-right:16px}}

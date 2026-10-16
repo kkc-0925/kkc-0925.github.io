@@ -3,11 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0;url=./example/">
-  <title>Encore · 安可回忆</title>
-  <link rel="canonical" href="https://kkc-0925.github.io/example/">
+  <meta name="description" content="Encore 安可回忆，把照片与音乐收藏成一本本现场回忆册。选择一场回忆，让心动再次响起。">
+  <meta name="theme-color" content="#f6f4ed">
+  <title>Encore · 安可回忆 | 我的回忆相册</title>
+  <link rel="stylesheet" href="example/style.css">
+  <link rel="stylesheet" href="home.css">
 </head>
-<body>
-  <p><a href="./example/">进入 Encore · 安可回忆</a></p>
+<body class="home-page">
+  <a class="skip-link" href="#albums">跳到回忆相册</a>
+  <header class="header site-header">
+    <a href="./" class="brand" aria-label="Encore 相册首页">encore<span class="brand-star">✳</span><small>安 可 回 忆</small></a>
+    <nav aria-label="主导航"><a href="./" aria-current="page">相册首页</a><a href="1/">回忆 1</a><a href="example/">示例相册</a></nav>
+    <a class="button dark header-action" href="1/">打开回忆 1 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main class="home-main">
+    <section class="home-hero" aria-labelledby="homeTitle">
+      <div class="home-intro">
+        <span class="eyebrow"><span class="live-dot"></span> THE SHOW ENDS. THE FEELING STAYS.</span>
+        <h1 id="homeTitle">把那一晚，<br>再<span class="home-accent">放映一次。</span><span class="home-spark" aria-hidden="true">✧</span></h1>
+        <p>有些歌，前奏一响就回到现场。<br>有些瞬间，值得拥有一本自己的回忆册。</p>
+        <a class="button dark" href="1/">走进回忆 1 <span aria-hidden="true">↗</span></a><a class="home-secondary" href="#albums">浏览全部相册 <span aria-hidden="true">↓</span></a>
+        <div class="home-meta"><span>02 本回忆册</span><span>照片 × 音乐 × 心动</span></div>
+      </div>
+      <a class="featured-memory" href="1/" aria-label="打开回忆 1，3 张照片与 2 首歌曲">
+        <div class="memory-tape" aria-hidden="true"></div>
+        <img src="1/media/photos/P1230098.jpg" width="1920" height="1442" alt="聚光灯下，歌手手持麦克风演唱的现场瞬间" fetchpriority="high">
+        <div class="featured-caption"><span>01 / 回忆 1</span><span>PRESS PLAY <span aria-hidden="true">↗</span></span></div>
+        <span class="memory-note">每一张，都是「我在场」的证明。</span>
+      </a>
+    </section>
+    <section class="album-section" id="albums" aria-labelledby="albumsTitle">
+      <div class="album-heading"><div><span class="eyebrow">THE NIGHTS WE KEEP</span><h2 id="albumsTitle">我的回忆相册<span class="small-star" aria-hidden="true">✳</span></h2></div><p>选一本，回到那个不想散场的夜晚。</p></div>
+      <div class="album-grid">
+        <a class="album-card" href="1/">
+          <div class="album-cover"><img src="1/media/photos/P1230107.jpg" width="1920" height="1442" alt="蓝绿色舞台背景前的演唱瞬间" loading="lazy"><span class="album-badge">精选回忆</span><span class="album-open" aria-hidden="true">↗</span></div>
+          <div class="album-title"><h3>回忆 1</h3><span>01</span></div><p>聚光、歌声，以及舍不得结束的那一刻。</p><div class="album-details"><span>3 张照片</span><span>2 首歌曲</span><span>进入回忆 →</span></div>
+        </a>
+        <a class="album-card" href="example/">
+          <div class="album-cover"><img src="example/media/photos/photo-11.jpg" width="1920" height="1440" alt="示例相册中留存的演唱会现场照片" loading="lazy"><span class="album-badge">原版相册</span><span class="album-open" aria-hidden="true">↗</span></div>
+          <div class="album-title"><h3>示例相册</h3><span>02</span></div><p>灯海、合唱和心跳，故事从这里开始。</p><div class="album-details"><span>12 张照片</span><span>5 首歌曲</span><span>进入回忆 →</span></div>
+        </a>
+      </div>
+    </section>
+    <div class="home-outro"><span class="eyebrow">ADMIT ONE · FOREVER</span><p>散场之后，故事还在继续。</p><span aria-hidden="true">✳</span></div>
+  </main>
+  <footer class="footer"><a class="brand" href="./">encore<span class="brand-star" aria-hidden="true">✳</span></a><span>为每一个不想散场的你而做。</span><a class="text-button" href="#albums">选择回忆相册 ↑</a></footer>
 </body>
 </html>

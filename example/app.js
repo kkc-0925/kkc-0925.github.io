@@ -1,6 +1,6 @@
 'use strict';
-const bundledDemoImages={"photo-1501386761578-eac5c94b800a":"media/demo/demo-01.jpg","photo-1470229722913-7c0e2dbbafd3":"media/demo/demo-02.jpg","photo-1459749411175-04bf5292ceea":"media/demo/demo-03.jpg","photo-1506157786151-b8491531f063":"media/demo/demo-04.jpg","photo-1492684223066-81342ee5ff30":"media/demo/demo-05.jpg","photo-1516280440614-37939bbacd81":"media/demo/demo-06.jpg"};
-const websiteMediaTypes={"media/photos/photo-01.jpg":"image/jpeg","media/photos/photo-02.jpg":"image/jpeg","media/photos/photo-03.jpg":"image/jpeg","media/photos/photo-04.jpg":"image/jpeg","media/photos/photo-05.jpg":"image/jpeg","media/photos/photo-06.jpg":"image/jpeg","media/photos/photo-07.jpg":"image/jpeg","media/photos/photo-08.jpg":"image/jpeg","media/photos/photo-09.jpg":"image/jpeg","media/photos/photo-10.jpg":"image/jpeg","media/photos/photo-11.jpg":"image/jpeg","media/photos/photo-12.jpg":"image/jpeg","media/background/background.jpg":"image/jpeg","media/music/song-01.mp3":"audio/mpeg","media/music/song-02.mp3":"audio/mpeg","media/music/song-03.mp3":"audio/mpeg","media/music/song-04.mp3":"audio/mpeg","media/music/song-05.mp3":"audio/mpeg","media/demo/demo-01.jpg":"image/jpeg","media/demo/demo-02.jpg":"image/jpeg","media/demo/demo-03.jpg":"image/jpeg","media/demo/demo-04.jpg":"image/jpeg","media/demo/demo-05.jpg":"image/jpeg","media/demo/demo-06.jpg":"image/jpeg"};
+const bundledDemoImages=globalThis.ENCORE_DEMO_IMAGES||{"photo-1501386761578-eac5c94b800a":"media/demo/demo-01.jpg","photo-1470229722913-7c0e2dbbafd3":"media/demo/demo-02.jpg","photo-1459749411175-04bf5292ceea":"media/demo/demo-03.jpg","photo-1506157786151-b8491531f063":"media/demo/demo-04.jpg","photo-1492684223066-81342ee5ff30":"media/demo/demo-05.jpg","photo-1516280440614-37939bbacd81":"media/demo/demo-06.jpg"};
+const websiteMediaTypes={...globalThis.ENCORE_MEDIA_TYPES,"media/photos/photo-01.jpg":"image/jpeg","media/photos/photo-02.jpg":"image/jpeg","media/photos/photo-03.jpg":"image/jpeg","media/photos/photo-04.jpg":"image/jpeg","media/photos/photo-05.jpg":"image/jpeg","media/photos/photo-06.jpg":"image/jpeg","media/photos/photo-07.jpg":"image/jpeg","media/photos/photo-08.jpg":"image/jpeg","media/photos/photo-09.jpg":"image/jpeg","media/photos/photo-10.jpg":"image/jpeg","media/photos/photo-11.jpg":"image/jpeg","media/photos/photo-12.jpg":"image/jpeg","media/background/background.jpg":"image/jpeg","media/music/song-01.mp3":"audio/mpeg","media/music/song-02.mp3":"audio/mpeg","media/music/song-03.mp3":"audio/mpeg","media/music/song-04.mp3":"audio/mpeg","media/music/song-05.mp3":"audio/mpeg","media/demo/demo-01.jpg":"image/jpeg","media/demo/demo-02.jpg":"image/jpeg","media/demo/demo-03.jpg":"image/jpeg","media/demo/demo-04.jpg":"image/jpeg","media/demo/demo-05.jpg":"image/jpeg","media/demo/demo-06.jpg":"image/jpeg"};
 'use strict';
 const $ = (s, root = document) => root.querySelector(s);
 const $$ = (s, root = document) => [...root.querySelectorAll(s)];
@@ -609,8 +609,8 @@ async function selfContainedValue(value,cache=new Map()){
 async function inlineWebsiteSources(root){
   const externalApp=document.querySelector('script[data-encore-source="app"]');
   if(!externalApp)return;
-  const css=await readWebsiteResource('style.css',true);
-  let code=await readWebsiteResource('app.js',true);
+  const css=await readWebsiteResource(document.querySelector('[data-encore-source="style"]').href,true);
+  let code=await readWebsiteResource(externalApp.src,true);
   const demos=await selfContainedValue(bundledDemoImages);
   const start=code.indexOf('const bundledDemoImages=');
   const end=code.indexOf('\nconst websiteMediaTypes=',start);
@@ -624,6 +624,10 @@ async function inlineWebsiteSources(root){
 async function createPortableDocument({keepInstance=false}={}){
   const state=await selfContainedValue(JSON.parse(JSON.stringify(archiveState())));
     const root=document.documentElement.cloneNode(true);
+    // A downloaded album can move away from the site's directory structure.
+    root.querySelectorAll('.site-header a,.footer .brand').forEach(link=>{
+      link.href=new URL(link.getAttribute('href'),document.baseURI).href;
+    });
     if(!keepInstance)root.dataset.encoreInstance=crypto.randomUUID();
     root.querySelector('#encore-embedded-state')?.remove();
     for(const selector of ['#carouselStage','#photoGrid','#panelContent','#toast'])root.querySelector(selector)?.replaceChildren();
@@ -834,3 +838,17 @@ document.getElementById('savePortable').onclick=async()=>{
   finally{button.disabled=false;button.textContent='下载副本 ↗'}
 };
 setupLocalFileSaving();
+
+// Keep the section navigation in sync when browsing the album.
+const sectionLinks=$$('.album-nav a[href^="#"]');
+if(sectionLinks.length&&'IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{
+    for(const entry of entries)if(entry.isIntersecting){
+      for(const link of sectionLinks){
+        if(link.hash==='#'+entry.target.id)link.setAttribute('aria-current','location');
+        else link.removeAttribute('aria-current');
+      }
+    }
+  },{rootMargin:'-25% 0px -50% 0px'});
+  for(const link of sectionLinks){const section=document.querySelector(link.hash);if(section)observer.observe(section)}
+}
