@@ -99,7 +99,7 @@ function musicPanelMarkup(){return `<h2>让回忆，有声音。</h2><p>把现�
   <div class="playlist-options"><label for="playMode">播放方式</label><select id="playMode"><option value="list" ${playMode==='list'?'selected':''}>歌单循环 · 按顺序播放全部歌曲</option><option value="single" ${playMode==='single'?'selected':''}>单曲循环 · 重复当前歌曲</option></select></div>
   <div id="playlistRows" class="playlist-rows" aria-label="已保存的歌曲"></div>
   <label class="field">音量<input id="panelVolume" type="range" min="0" max="1" step=".01" value="${settings.volume}"></label>
-  <p class="subtle-note">添加后会先保存在当前浏览器。启用原文件自动保存后，全部歌曲会自动写回绑定的 HTML；也可点击「下载副本」手动导出。歌曲越多，文件越大。首次播放请点击播放键；QQ 音乐的加密下载文件无法直接播放。</p>
+  <p class="subtle-note">添加后会保存在当前浏览器。首次播放请点击播放键；QQ 音乐的加密下载文件无法直接播放。</p>
   <div class="dialog-actions"><button class="button outline" id="panelPrevious">上一首</button><button class="button outline" id="panelNext">下一首</button><button class="button dark" id="panelPlay">${audio.paused?'播放音乐 ▶':'暂停音乐 Ⅱ'}</button></div></div>
   <div id="qqMusic" hidden><label class="field">QQ 音乐分享链接<input id="qqLink" type="url" placeholder="https://y.qq.com/..." value="${esc(settings.qq)}"></label><p class="subtle-note">QQ 音乐分享链接用于跳转播放。要加入本站歌单，请选择自己已有的普通音频文件。</p><div class="dialog-actions"><button class="button outline" id="saveQQ">保存链接</button><button class="button dark" id="openQQ">前往 QQ 音乐 ↗</button></div></div>`}
 function renderPlaylist(){
@@ -527,10 +527,10 @@ function closePanel(){$('#settingsDialog').close();activePanel=null}
 function openPanel(name,p){finishInlineEdit(true);activePanel=name;selectedFiles=[];const root=$('#panelContent');const content={
 upload:`<h2>收藏一个新瞬间。</h2><p>照片会保存在此浏览器，随时回来，再看一遍。</p><label class="dropzone" id="dropzone"><b>＋</b><strong id="selectedLabel">点击选择，或把照片拖到这里</strong><small>支持 JPG / PNG / WebP · 可批量选择 · 每张不超过 200 MB · 自动压缩后保存</small><input class="file-hidden" id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp,image/avif" multiple></label>${memoryFields()}<div class="dialog-actions"><button class="button outline" data-close>取消</button><button class="button dark" id="savePhotos">保存到我的现场 ↗</button></div>`,
 edit:`<h2>让回忆更完整。</h2>${memoryFields(p)}<div class="dialog-actions"><button class="button outline" data-close>取消</button><button class="button dark" id="saveEdit">保存回忆</button></div>`,
-delete:`<h2>告别这张照片？</h2><p>「${esc(p?.title)}」将从此浏览器的回忆册中删除。建议先导出备份。</p><div class="dialog-actions"><button class="button outline" data-close>保留回忆</button><button class="button dark" id="confirmDelete">删除照片</button></div>`,
+delete:`<h2>告别这张照片？</h2><p>「${esc(p?.title)}」将从此浏览器的回忆册中删除，请确认后再操作。</p><div class="dialog-actions"><button class="button outline" data-close>保留回忆</button><button class="button dark" id="confirmDelete">删除照片</button></div>`,
 appearance:`<h2>布置你的回忆空间。</h2><p>换一种底色，让那天的氛围回来。</p><div class="theme-options">${Object.entries(themes).map(([key,color])=>`<button class="theme-button ${settings.theme===key?'checked':''}" data-theme="${key}" style="--swatch:${color}">${{paper:'奶油胶片',sage:'苔绿来信',rose:'日落余温',blue:'蓝调时刻'}[key]}</button>`).join('')}</div><label class="field">自由选择背景色<input type="color" id="backgroundColor" value="${esc(settings.color)}"></label><label class="dropzone"><b>↥</b><strong>用自己的照片作为背景</strong><small>每张不超过 200 MB · 自动压缩后保存</small><input type="file" id="backgroundFile" accept="image/*" class="file-hidden"></label><label class="field">背景照片浓度 <input id="backgroundDim" type="range" min="0" max=".75" step=".01" value="${settings.dim}"></label><div class="dialog-actions"><button class="button outline" id="clearBackground">移除背景照片</button><button class="button dark" id="saveAppearance">保存布置</button></div>`,
 music:musicPanelMarkup(),
-help:`<h2>把现场，留在这里。</h2><ol class="help-list"><li><b>收藏回忆：</b>批量导入照片，填写演唱会、日期、地点和文字。双击照片下方的标题、小字或描述可直接修改，点击空白处自动保存；按 Esc 可取消。点击照片可查看大图、编辑或删除。</li><li><b>回忆转盘：</b>照片每 4.2 秒自动循环。可暂停、点击左右箭头、使用键盘方向键，或在手机上左右滑动。</li><li><b>布置空间：</b>选择底色或导入背景照片，用浓度滑块调节氛围。</li><li><b>背景音乐：</b>可批量添加多首普通音频，在歌单中切歌或移除歌曲，支持歌单循环和单曲循环。QQ 分享链接用于前往 QQ 音乐，无法直接连接电脑客户端。</li><li><b>妥善保存：</b>修改会先保存在当前浏览器。启用原文件自动保存后，将直接写回选定的 HTML；请等页面显示「已写回原文件」再关闭。更换设备时携带这个 HTML，也可以导出备份；「导入备份」会恢复整个回忆册。</li></ol><p class="subtle-note">当前展示的现场均为示例，不代表你的真实经历。你可以单独删除示例照片。备份包含个人照片与音频，请自行保管。</p><div class="dialog-actions"><button class="button dark" data-close>开始收藏 ↗</button></div>`
+help:`<h2>把现场，留在这里。</h2><ol class="help-list"><li><b>收藏回忆：</b>批量导入照片，填写演唱会、日期、地点和文字。双击照片下方的标题、小字或描述可直接修改，点击空白处自动保存；按 Esc 可取消。点击照片可查看大图、编辑或删除。</li><li><b>回忆转盘：</b>照片每 4.2 秒自动循环。可暂停、点击左右箭头、使用键盘方向键，或在手机上左右滑动。</li><li><b>布置空间：</b>选择底色或导入背景照片，用浓度滑块调节氛围。</li><li><b>背景音乐：</b>可批量添加多首普通音频，在歌单中切歌或移除歌曲，支持歌单循环和单曲循环。QQ 分享链接用于前往 QQ 音乐，无法直接连接电脑客户端。</li><li><b>妥善保存：</b>修改会自动保存在当前浏览器。请使用同一浏览器和设备查看，清除网站数据会移除浏览器中保存的修改。</li></ol><p class="subtle-note">当前展示的现场均为示例，不代表你的真实经历。你可以单独删除示例照片。</p><div class="dialog-actions"><button class="button dark" data-close>开始收藏 ↗</button></div>`
 };root.innerHTML=content[name]||'';if(!$('#settingsDialog').open)$('#settingsDialog').showModal();
 if(name==='upload'){const choose=files=>{selectedFiles=[...files];$('#selectedLabel').textContent=selectedFiles.length?`已选择 ${selectedFiles.length} 张照片`:'点击选择，或把照片拖到这里'};$('#photoFiles').onchange=e=>choose(e.target.files);const drop=$('#dropzone');drop.ondragover=e=>{e.preventDefault();drop.classList.add('drag-over')};drop.ondragleave=()=>drop.classList.remove('drag-over');drop.ondrop=e=>{e.preventDefault();drop.classList.remove('drag-over');choose(e.dataTransfer.files)};$('#savePhotos').onclick=async()=>{if(!selectedFiles.length)return toast('先选择几张现场照片吧');const button=$('#savePhotos');button.disabled=true;button.textContent='正在收藏…';try{const f=fields(),added=[];for(const [i,file] of selectedFiles.entries()){const src=await imageData(file);added.push({id:crypto.randomUUID(),src,...f,title:f.title?(selectedFiles.length>1?`${f.title} · ${i+1}`:f.title):file.name.replace(/\.[^.]+$/,''),album:f.album||'我的现场',favorite:false,demo:false})}photos.push(...added);current=photos.length-added.length;filter='mine';$$('[data-filter]').forEach(b=>b.classList.toggle('selected',b.dataset.filter===filter));const saved=await persist();render();resetTimer();closePanel();if(saved)toast(`已收藏 ${added.length} 张照片，回忆正在放映`)}catch(e){toast(e.message)}finally{button.disabled=false;button.textContent='保存到我的现场 ↗'}}}
 if(name==='edit')$('#saveEdit').onclick=async()=>{const edited=fields();Object.assign(p,edited);if(typeof p.description==='string')p.description=edited.note;p.title=p.title||'未命名的回忆';const saved=await persist();render();closePanel();openLightbox(p.id);if(saved)toast('回忆已保存')};
@@ -567,14 +567,14 @@ setupPlaylistControls();
 setupCompactPlayer();
 setupInlinePhotoEditing();
 setupPhotoZoom();
-$('#backup').onclick=async()=>{
+if($('#backup'))$('#backup').onclick=async()=>{
   const button=$('#backup');button.disabled=true;
   try{finishInlineEdit(true);const state=await selfContainedValue(JSON.parse(JSON.stringify(archiveState())));const data=JSON.stringify(state);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=`Encore-回忆备份-${new Date().toISOString().slice(0,10)}.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('备份已导出，包含你的照片、文字、背景与音乐')}catch(error){toast(error.message||'备份导出失败，请重试')}finally{button.disabled=false}
 };
-$('#restore').onclick=()=>$('#restoreFile').click();
+if($('#restore'))$('#restore').onclick=()=>$('#restoreFile')?.click();
 function validImage(src){return typeof src==='string'&&((Object.hasOwn(websiteMediaTypes,src)&&websiteMediaTypes[src].startsWith('image/'))||/^data:image\/(jpeg|png|webp|avif);base64,[A-Za-z0-9+/=]+$/.test(src)||/^https:\/\/images\.unsplash\.com\/photo-[a-zA-Z0-9-]+\?/.test(src))}
 function validateBackup(data){if(data.format!=='encore-memories'||![1,2].includes(data.version)||!Array.isArray(data.photos)||data.photos.length>2000)throw Error('这不是有效的 Encore 备份');const ids=new Set();data.photos.forEach(p=>{if(!p||typeof p.id!=='string'||ids.has(p.id)||!validImage(p.src)||typeof p.title!=='string')throw Error('备份中的照片数据无效');ids.add(p.id);for(const k of ['album','date','location','note','caption','description'])if(p[k]!=null&&typeof p[k]!=='string')throw Error('备份中的文字数据无效')});const s=data.settings;if(!s||!/^#[a-f\d]{6}$/i.test(s.color)||!Number.isFinite(s.dim)||s.dim<0||s.dim>.75||!Number.isFinite(s.volume)||s.volume<0||s.volume>1||(s.background&&!validImage(s.background)))throw Error('备份中的背景设置无效');validateMusicArchive(data);if(data._editedAt!=null&&(!Number.isFinite(data._editedAt)||data._editedAt<0))throw Error('备份中的保存时间无效');return data}
-$('#restoreFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{const data=validateBackup(JSON.parse(await file.text()));activePanel='restore';$('#panelContent').innerHTML=`<h2>恢复这本回忆册？</h2><p>备份包含 ${data.photos.length} 张照片、${(data.playlist||(data.music?[data.music]:[])).length} 首歌曲。导入后会替换此浏览器当前的照片、音乐和背景，请先导出当前内容。</p><div class="dialog-actions"><button class="button outline" data-close>取消</button><button class="button dark" id="confirmRestore">恢复备份</button></div>`;$('#settingsDialog').showModal();$('#confirmRestore').onclick=async()=>{audio.pause();restoreArchiveTimestamp(data);photos=data.photos;settings=data.settings;loadMusicState(data);current=0;filter='all';$$('[data-filter]').forEach(b=>b.classList.toggle('selected',b.dataset.filter==='all'));if(music)setAudioSource(music.src);else clearAudioSource();applyAppearance();setVolume(settings.volume);updateTrack();render();resetTimer();const saved=await persist();closePanel();if(saved)toast('回忆已恢复，欢迎回来')}}catch(e){toast(e.message||'备份文件无法读取')}};
+if($('#restoreFile'))$('#restoreFile').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{const data=validateBackup(JSON.parse(await file.text()));activePanel='restore';$('#panelContent').innerHTML=`<h2>恢复这本回忆册？</h2><p>备份包含 ${data.photos.length} 张照片、${(data.playlist||(data.music?[data.music]:[])).length} 首歌曲。导入后会替换此浏览器当前的照片、音乐和背景，请先导出当前内容。</p><div class="dialog-actions"><button class="button outline" data-close>取消</button><button class="button dark" id="confirmRestore">恢复备份</button></div>`;$('#settingsDialog').showModal();$('#confirmRestore').onclick=async()=>{audio.pause();restoreArchiveTimestamp(data);photos=data.photos;settings=data.settings;loadMusicState(data);current=0;filter='all';$$('[data-filter]').forEach(b=>b.classList.toggle('selected',b.dataset.filter==='all'));if(music)setAudioSource(music.src);else clearAudioSource();applyAppearance();setVolume(settings.volume);updateTrack();render();resetTimer();const saved=await persist();closePanel();if(saved)toast('回忆已恢复，欢迎回来')}}catch(e){toast(e.message||'备份文件无法读取')}};
 async function init(){try{db=await openDB();const state=chooseArchiveState(await readDB(),readEmbeddedArchive());if(state){restoreArchiveTimestamp(state);photos=state.photos;settings={...settings,...state.settings};loadMusicState(state)}}catch(e){const embedded=readEmbeddedArchive();if(embedded){restoreArchiveTimestamp(embedded);photos=embedded.photos;settings={...settings,...embedded.settings};loadMusicState(embedded)}storageOK=false;$('.view-note').textContent='临时浏览 · 请导出备份';toast('浏览器存储不可用，关闭前请导出备份')}applyAppearance();setVolume(settings.volume);if(music)setAudioSource(music.src);updateTrack();render();resetTimer();restoreOriginalFileSaving()}
 init();
 
@@ -651,8 +651,8 @@ async function createPortableDocument({keepInstance=false}={}){
     root.querySelector('#musicSeek')?.setAttribute('value','0');
     if(root.querySelector('#compactMusicTime'))root.querySelector('#compactMusicTime').textContent='0:00 / --:--';
     const play=root.querySelector('#musicPlay');play.textContent='▶';play.setAttribute('aria-label','播放背景音乐');
-    root.querySelector('#savePortable').disabled=false;
-    root.querySelector('#savePortable').textContent='下载副本 ↗';
+    const portableButton=root.querySelector('#savePortable');
+    if(portableButton){portableButton.disabled=false;portableButton.textContent='下载副本 ↗'}
     const bind=root.querySelector('#bindLocalFile');if(bind){bind.hidden=false;bind.disabled=false;bind.textContent='启用原文件自动保存'}
     const save=root.querySelector('#saveOriginal');if(save){save.hidden=true;save.disabled=false}
     const status=root.querySelector('#localSaveStatus');if(status){status.textContent='打开后检查原文件保存权限';status.dataset.state='idle'}
@@ -815,6 +815,7 @@ async function restoreOriginalFileSaving(){
 }
 function setupLocalFileSaving(){
   const footer=document.querySelector('.collection-footer');
+  if(!footer)return;
   if(!document.getElementById('bindLocalFile')){
     const bind=document.createElement('button');bind.id='bindLocalFile';bind.className='text-button';footer.prepend(bind);
     const save=document.createElement('button');save.id='saveOriginal';save.className='text-button';save.textContent='立即写回';save.hidden=true;bind.after(save);
@@ -824,9 +825,9 @@ function setupLocalFileSaving(){
   document.getElementById('savePortable').textContent='下载副本 ↗';originalSaveUI();
   window.addEventListener('beforeunload',event=>{const editing=activeInlineEdit&&activeInlineEdit.input.value.trim()!==activeInlineEdit.original;if(localFileSaving.handle&&(editing||localFileSaving.running||localFileSaving.revision>localFileSaving.savedRevision)){event.preventDefault();event.returnValue=''}});
 }
-function inlineSaveNotice(){return localFileSaving.handle&&!localFileSaving.paused?'文字已保存，正在自动写回原文件':'文字已保存在浏览器；启用原文件自动保存可直接写回 HTML'}
+function inlineSaveNotice(){if(!document.querySelector('.collection-footer'))return '文字已保存在当前浏览器';return localFileSaving.handle&&!localFileSaving.paused?'文字已保存，正在自动写回原文件':'文字已保存在浏览器；启用原文件自动保存可直接写回 HTML'}
 
-document.getElementById('savePortable').onclick=async()=>{
+if(document.getElementById('savePortable'))document.getElementById('savePortable').onclick=async()=>{
   const button=document.getElementById('savePortable');button.disabled=true;button.textContent='正在整理回忆…';
   try{
     finishInlineEdit(true);const {blob}=await createPortableDocument();
